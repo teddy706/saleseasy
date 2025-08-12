@@ -207,9 +207,10 @@ footer {
     transform: translateY(-4px);
     box-shadow: 0 6px 16px rgba(0,0,0,0.1);
 }
-.card-sub-category { font-size: 1.2rem; font-weight: 600; margin-bottom: 8px; }
-.card-item, .card-sub-item { font-size: 1rem; font-weight: 500; color: var(--icloud-text-secondary); margin-bottom: 15px; }
-.card-path { font-size: 0.8rem; color: var(--icloud-accent-blue); margin-top: auto; padding-top: 15px; border-top: 1px solid var(--icloud-border); word-break: break-all; }
+.card-sub-category { font-size: 1.0rem; font-weight: 500; margin-bottom: 8px; }
+.card-item { font-size: 1.1rem; font-weight: 500; color: var(--icloud-text-secondary); margin-bottom: 8px; }
+.card-sub-item { font-size: 1.2rem; font-weight: 500; color: var(--icloud-text-secondary); margin-bottom: 8px; }
+.card-path { font-size: 1rem; color: var(--icloud-accent-blue); margin-top: auto; padding-top: 15px; border-top: 1px solid var(--icloud-border); word-break: break-all; }
 #noResultsMessage { padding: 40px; color: var(--icloud-text-secondary); }
 
 /* detail.html 전용 */
@@ -221,8 +222,8 @@ footer {
     border: 1px solid var(--icloud-border);
     box-shadow: 0 2px 8px rgba(0,0,0,0.06);
 }
-.detail-sub-category { font-size: 2rem; font-weight: 600; margin-bottom: 10px; }
-.detail-item { font-size: 1.5rem; font-weight: 500; margin-bottom: 10px; }
+.detail-sub-category { font-size: 1.5rem; font-weight: 600; margin-bottom: 10px; }
+.detail-item { font-size: 1.3rem; font-weight: 500; margin-bottom: 10px; }
 .detail-sub-item { font-size: 1.1rem; color: var(--icloud-text-secondary); margin-bottom: 40px; }
 .detail-field-group { margin-bottom: 30px; }
 .detail-field-title { font-size: 0.9rem; font-weight: 600; color: var(--icloud-text-secondary); margin-bottom: 10px; text-transform: uppercase; letter-spacing: 0.05em; }
@@ -271,7 +272,32 @@ footer {
 .description-table td { color: var(--icloud-text-secondary); }
 .description-table ul { list-style-position: outside; padding-left: 20px; margin: 0; }
 .description-table li { margin-bottom: 5px; }
-
+        /* 검색 필터 스타일 */
+        .search-filters {
+            display: flex;
+            gap: 15px;
+            margin-top: 15px;
+            margin-bottom: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+            padding: 10px;
+            background-color: #f9f9f9;
+            border-radius: 12px;
+            border: 1px solid #e5e5e5;
+        }
+        .search-filters label {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            color: #333;
+        }
+        .search-filters input[type="checkbox"] {
+            width: 16px;
+            height: 16px;
+            cursor: pointer;
+        }
 /* --- 게시판 스타일 추가 --- */
 .board-container {
     margin-top: 40px;

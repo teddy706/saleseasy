@@ -35,9 +35,39 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
     function initializeApp(data) {
-        const subCategoryColorMap = createColorMap(data, 'Sub Category', ['#ff85c0', '#79d7f2', '#82e0aa', '#ffd700', '#d3a4ff']);
-        const itemColorMap = createColorMap(data, 'Item', ['#ff9a9e', '#a1c4fd', '#b8e986', '#fceabb', '#f8c3d4', '#d4a5a5']);
-
+        // 색상 팔레트: 연결성 있게 그라데이션 계열로 지정
+        const subCategoryColorMap = createColorMap(data, 'Sub Category', [
+            '#6a89cc', // 파랑
+            '#38ada9', // 청록
+            '#b8e994', // 연두
+            '#f6b93b', // 노랑
+            '#e55039', // 주황
+            '#4a69bd', // 진파랑
+            '#60a3bc', // 하늘
+            '#78e08f', // 초록
+            '#fa983a', // 밝은 주황
+            '#eb2f06'  // 빨강
+        ]);
+        const itemColorMap = createColorMap(data, 'Item', [
+            '#4a69bd', // 진파랑
+            '#60a3bc', // 하늘
+            '#78e08f', // 초록
+            '#b8e994', // 연두
+            '#f6b93b', // 노랑
+            '#fa983a', // 밝은 주황
+            '#e55039', // 주황
+            '#eb2f06'  // 빨강
+        ]);
+        const subitemColorMap = createColorMap(data, 'Sub item', [
+            '#38ada9', // 청록
+            '#78e08f', // 초록
+            '#b8e994', // 연두
+            '#f6b93b', // 노랑
+            '#fa983a', // 밝은 주황
+            '#e55039', // 주황
+            '#eb2f06'  // 빨강
+        ]);
+        
         function createColorMap(data, key, colors) {
             const uniqueValues = [...new Set(data.map(item => item[key]))];
             const map = new Map();
@@ -88,13 +118,14 @@ document.addEventListener('DOMContentLoaded', () => {
                     resultElement.className = 'result-card';
                     const subCategoryColor = subCategoryColorMap.get(item['Sub Category']) || 'var(--icloud-text-primary)';
                     const itemColor = itemColorMap.get(item['Item']) || 'var(--icloud-text-primary)';
+                    const subitemColor = subitemColorMap.get(item['Sub item']) || 'var(--icloud-text-primary)';
                     
                     resultElement.innerHTML = `
                         <div style="flex-grow: 1;">
                             <div>
-                                <p class="card-sub-category" style="color: ${subCategoryColor};">${highlightText(item['Sub Category'], query)}</p>
-                                <p class="card-item" style="color: ${itemColor};"> ${highlightText(item['Item'], query)}</p>
-                                <p class="card-sub-item">  ${highlightText(item['Sub item'], query)}</p>
+                                <p class="card-sub-category" style="color: ${subCategoryColor};">${highlightText(item['Sub Category'], query)}
+                                &nbsp;<span class="card-sub-item" style="color: ${itemColor};"> >> ${highlightText(item['Item'], query)}</span>
+                                &nbsp;<span class="card-sub-item" style="color: ${subitemColor};">  >>> ${highlightText(item['Sub item'], query)}</span></p>
                             </div>
                             <div class="field-group">
                                 <p class="field-title">항목 설명</p>
@@ -147,26 +178,54 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         }
 
+        /**
+         * 검색 및 필터링을 처리하는 함수.
+         * 카테고리 탭, 검색어, 검색 필드 체크박스를 모두 반영하여 결과를 필터링합니다.
+         */
         function handleSearchAndFilter() {
             const originalQuery = searchInput.value.trim();
             const queryForMatching = originalQuery.toLowerCase().replace(/\s/g, '');
             let filteredResults = allData;
 
+            // 1. 카테고리 필터링
             if (activeCategory !== 'All') {
                 filteredResults = filteredResults.filter(item => item['Sub Category'] === activeCategory);
             }
 
-            if (queryForMatching) {
-                filteredResults = filteredResults.filter(item => 
-                    Object.values(item).some(value => 
-                        String(value).toLowerCase().replace(/\s/g, '').includes(queryForMatching)
-                    )
-                );
+            // 2. 선택된 검색 필드 가져오기
+            const selectedFilters = [...document.querySelectorAll('input[name="searchFilter"]:checked')].map(cb => cb.value);
+
+            // 3. 검색어 및 선택된 필드 기반 필터링
+            if (queryForMatching && selectedFilters.length > 0) {
+                filteredResults = filteredResults.filter(item => {
+                    // 선택된 각 필드에 대해 검색어가 포함되어 있는지 확인
+                    return selectedFilters.some(filter => {
+                        let valueToSearch = '';
+                        // '항목' 필터는 'Item'과 'Sub item'을 모두 검색
+                        if (filter === 'Item') {
+                            const itemValue = item['Item'] || '';
+                            const subItemValue = item['Sub item'] || '';
+                            valueToSearch = itemValue + ' ' + subItemValue;
+                        } else {
+                            // 다른 필터는 해당 키의 값을 검색
+                            valueToSearch = item[filter] || '';
+                        }
+                        // 공백을 제거하고 소문자로 변환하여 검색어 포함 여부 확인
+                        return String(valueToSearch).toLowerCase().replace(/\s/g, '').includes(queryForMatching);
+                    });
+                });
             }
+            
             renderResults(filteredResults, originalQuery);
         }
 
+        // 검색 입력 및 필터 변경 시 이벤트 리스너 등록
         searchInput.addEventListener('input', handleSearchAndFilter);
+        document.querySelectorAll('input[name="searchFilter"]').forEach(checkbox => {
+            checkbox.addEventListener('change', handleSearchAndFilter);
+        });
+
+        // 초기화
         createCategoryTabs();
         handleSearchAndFilter();
     }

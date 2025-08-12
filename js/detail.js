@@ -17,9 +17,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
             detailContainer.innerHTML = `
                 <div class="detail-card">
-                    <p class="detail-sub-category" style="color: ${subCategoryColor};">${item['Sub Category']}</p>
-                    <p class="detail-item" style="color: ${itemColor};"> ㄴ ${item['Item']}</p>
-                    <p class="detail-sub-item"> &nbsp;&nbsp;&nbsp;ㄴ ${item['Sub item']}</p>
+                    <p class="detail-sub-category" style="color: ${subCategoryColor};">${item['Sub Category']}
+                    <span class="detail-item" style="color: ${itemColor};"> &nbsp;>> ${item['Item']}</span>
+                    <span class="detail-sub-item"> &nbsp;>>> ${item['Sub item']}</span></p>
 
                     <div class="detail-field-group">
                         <p class="detail-field-title">항목 설명</p>

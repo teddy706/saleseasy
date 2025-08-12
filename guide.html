@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>영업이지(easy)</title>
     <link rel="stylesheet" href="css/icloud_inspired_style.css">
-   
 </head>
 <body>
     <header>
@@ -29,6 +28,14 @@
                 <div class="search-container">
                     <div class="search-box">
                         <input type="text" id="searchInput" placeholder="예: '첫주문시', '상품 설명' 등">
+                    </div>
+                    <!-- 검색 필터 체크박스 추가 -->
+                    <div id="searchFilters" class="search-filters">
+                        체크한 항목에서 검색합니다.
+                        <label><input type="checkbox" name="searchFilter" value="Item" checked> 세부 항목</label>
+                        <label><input type="checkbox" name="searchFilter" value="Field" checked> 항목 설명</label>
+                        <label><input type="checkbox" name="searchFilter" value="Purpose" checked> 사용 목적</label>
+                        <label><input type="checkbox" name="searchFilter" value="Path" checked> 경로</label>
                     </div>
                 </div>
                 <div id="categoryTabs" class="filter-tabs"></div>
